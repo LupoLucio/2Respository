@@ -37,39 +37,40 @@ public class ChessGame extends Copertina {
                 ind++;
             }
         }
-        Piece brook = new Piece(0, 0, false, "rook", ps);
+
+        Piece brook = new Rook(0, 0, false, "rook", ps);
         Piece bkinght = new Piece(1, 0, false, "knight", ps);
-        Piece bbishop = new Piece(2, 0, false, "bishop", ps);
+        Piece bbishop = new Bishop(2, 0, false, "bishop", ps);
         Piece bqueen = new Piece(3, 0, false, "queen", ps);
         Piece bking = new Piece(4, 0, false, "king", ps);
-        Piece bbishop2 = new Piece(5, 0, false, "bishop", ps);
+        Piece bbishop2 = new Bishop(5, 0, false, "bishop", ps);
         Piece bkight2 = new Piece(6, 0, false, "knight", ps);
-        Piece brook2 = new Piece(7, 0, false, "rook", ps);
+        Piece brook2 = new Rook(7, 0, false, "rook", ps);
         Piece bpawn1 = new Pawn(1, 1, false, "pawn", ps);
-        Piece bpawn2 = new Piece(2, 1, false, "pawn", ps);
-        Piece bpawn3 = new Piece(3, 1, false, "pawn", ps);
-        Piece bpawn4 = new Piece(4, 1, false, "pawn", ps);
-        Piece bpawn5 = new Piece(5, 1, false, "pawn", ps);
-        Piece bpawn6 = new Piece(6, 1, false, "pawn", ps);
-        Piece bpawn7 = new Piece(7, 1, false, "pawn", ps);
-        Piece bpawn8 = new Piece(0, 1, false, "pawn", ps);
+        Piece bpawn2 = new Pawn(2, 1, false, "pawn", ps);
+        Piece bpawn3 = new Pawn(3, 1, false, "pawn", ps);
+        Piece bpawn4 = new Pawn(4, 1, false, "pawn", ps);
+        Piece bpawn5 = new Pawn(5, 1, false, "pawn", ps);
+        Piece bpawn6 = new Pawn(6, 1, false, "pawn", ps);
+        Piece bpawn7 = new Pawn(7, 1, false, "pawn", ps);
+        Piece bpawn8 = new Pawn(0, 1, false, "pawn", ps);
 
-        Piece wrook = new Piece(0, 7, true, "rook", ps);
+        Piece wrook = new Rook(0, 7, true, "rook", ps);
         Piece wkinght = new Piece(1, 7, true, "knight", ps);
-        Piece wbishop = new Piece(2, 7, true, "bishop", ps);
+        Piece wbishop = new Bishop(2, 7, true, "bishop", ps);
         Piece wqueen = new Piece(3, 7, true, "queen", ps);
         Piece wking = new Piece(4, 7, true, "king", ps);
-        Piece wbishop2 = new Piece(5, 7, true, "bishop", ps);
+        Piece wbishop2 = new Bishop(5, 7, true, "bishop", ps);
         Piece wkight2 = new Piece(6, 7, true, "knight", ps);
-        Piece wrook2 = new Piece(7, 7, true, "rook", ps);
-        Piece wpawn1 = new Piece(1, 6, true, "pawn", ps);
-        Piece wpawn2 = new Piece(2, 6, true, "pawn", ps);
-        Piece wpawn3 = new Piece(3, 6, true, "pawn", ps);
-        Piece wpawn4 = new Piece(4, 6, true, "pawn", ps);
-        Piece wpawn5 = new Piece(5, 6, true, "pawn", ps);
-        Piece wpawn6 = new Piece(6, 6, true, "pawn", ps);
-        Piece wpawn7 = new Piece(7, 6, true, "pawn", ps);
-        Piece wpawn8 = new Piece(0, 6, true, "pawn", ps);
+        Piece wrook2 = new Rook(7, 7, true, "rook", ps);
+        Piece wpawn1 = new Pawn(1, 6, true, "pawn", ps);
+        Piece wpawn2 = new Pawn(2, 6, true, "pawn", ps);
+        Piece wpawn3 = new Pawn(3, 6, true, "pawn", ps);
+        Piece wpawn4 = new Pawn(4, 6, true, "pawn", ps);
+        Piece wpawn5 = new Pawn(5, 6, true, "pawn", ps);
+        Piece wpawn6 = new Pawn(6, 6, true, "pawn", ps);
+        Piece wpawn7 = new Pawn(7, 6, true, "pawn", ps);
+        Piece wpawn8 = new Pawn(0, 6, true, "pawn", ps);
 
         JFrame frame = new JFrame();
         frame.setBounds(100, 100, 512, 512);
@@ -144,30 +145,72 @@ public class ChessGame extends Copertina {
             @Override
             public void mouseClicked(MouseEvent e) {
 
+                // se non c'è un pezzo seslezionato
                 if (selectedPiece == null) {
-                    System.out.println("null");
+                    System.out.println("nessun pezzo selezionato");
+                    // ci metto in pezzo dove ho clickato
                     selectedPiece = getPiece(e.getX(), e.getY());
+                    // se riesco a selezionare il pezzo e è del turno giusto
                     if (selectedPiece != null && selectedPiece.isWhite == turn) {
                         selected = true;
-                        selectedPiece = getPiece(e.getX(), e.getY());
-                        System.out.println("acquisito");
-                    } else {
+
+                        // se è un pedone o alfiere per ora
+                        if (selectedPiece instanceof Pawn) {
+                            System.out.println("selezionato pedone");
+                            System.out.println(selectedPiece.toString());
+                        }
+                        if (selectedPiece instanceof Bishop) {
+                            System.out.println("selezionato alfiere");
+                            System.out.println(selectedPiece.toString());
+                        }
+                        if (selectedPiece instanceof Rook) {
+                            System.out.println("selezionato torre");
+                        }
+
+                    } // se il pezzo dove ho clickato è null o è del colore sbagliato
+                      // rimetto il selected piece a null(mossa invalida)
+                    else {
                         selectedPiece = null;
-                        System.out.println("null");
+                        System.out.println("nessun pezzo selezionato");
                     }
 
-                } else {
+                } // se invece ho gia un pezzo selezionato
+                else {
+                    // mi prendo le nuove coordinate del click
                     int newX = e.getX();
                     int newY = e.getY();
-                    if (selectedPiece.canMove(newX / 64, newY / 64)) {
-                        selectedPiece.move(newX / 64, newY / 64);
-                        turn = !turn;
+
+                    if (selectedPiece instanceof Pawn) {
+
+                        if (((Pawn) selectedPiece).canMove(newX / 64, newY / 64)) {
+
+                            selectedPiece.move(newX / 64, newY / 64);
+
+                            turn = !turn;
+                        }
 
                     }
+                    if (selectedPiece instanceof Bishop) {
 
+                        if (((Bishop) selectedPiece).canMove(newX / 64, newY / 64)) {
+
+                            selectedPiece.move(newX / 64, newY / 64);
+
+                            turn = !turn;
+                        }
+                    }
+                    if (selectedPiece instanceof Rook) {
+
+                        if (((Rook) selectedPiece).canMove(newX / 64, newY / 64)) {
+                            System.out.println("è una cazzo di torre");
+                            selectedPiece.move(newX / 64, newY / 64);
+                            turn = !turn;
+                        }
+
+                    }
                     selectedPiece = null;
                     selected = false;
-                    System.out.println("mosso");
+                    System.out.println(turn);
 
                     frame.repaint();
                 }

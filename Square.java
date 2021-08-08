@@ -1,3 +1,4 @@
+// classe che rappresenta la casella sulla scacchiera, identificata da due coordinate x e y
 public class Square {
 
     int x;
