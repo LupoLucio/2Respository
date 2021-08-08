@@ -88,38 +88,47 @@ public class Bishop extends Piece {
 
     }
 
+    // metodo che genera le caselle controllate dal'alfiere nella sua posizione
     public void generateControlledSquares() {
 
+        // diagonale basso a destra
         int i = 1;
         while (this.xp + i <= 7 && this.yp + i <= 7) {
             controlled.add(new Square(this.xp + i, this.yp + i));
+            // se dopo aver aggiunto la casella scopro che è occupata da qualcosa mi fermo
             if (ChessGame.getPiece((this.xp + i) * 64, (this.yp + i) * 64) != null) {
                 break;
             }
 
             i++;
         }
+        // diagonale basso a sinistra
         i = 1;
         while (this.xp - i >= 0 && this.yp + i <= 7) {
             controlled.add(new Square(this.xp - i, this.yp + i));
+            // se dopo aver aggiunto la casella scopro che è occupata da qualcosa mi fermo
             if (ChessGame.getPiece((this.xp - i) * 64, (this.yp + i) * 64) != null) {
                 break;
             }
 
             i++;
         }
+        // diagonale alto destra
         i = 1;
         while (this.xp + i <= 7 && this.yp - i >= 0) {
             controlled.add(new Square(this.xp + i, this.yp - i));
+            // se dopo aver aggiunto la casella scopro che è occupata da qualcosa mi fermo
             if (ChessGame.getPiece((this.xp + i) * 64, (this.yp - i) * 64) != null) {
                 break;
             }
 
             i++;
         }
+        // diagonale alto a sinistra
         i = 1;
         while (this.xp - i >= 0 && this.yp - i >= 0) {
             controlled.add(new Square(this.xp - i, this.yp - i));
+            // se dopo aver aggiunto la casella scopro che è occupata da qualcosa mi fermo
             if (ChessGame.getPiece((this.xp - i) * 64, (this.yp - i) * 64) != null) {
                 break;
             }
