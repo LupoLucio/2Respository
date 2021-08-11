@@ -38,14 +38,6 @@ public class ChessGame extends Copertina {
             }
         }
 
-        Piece brook = new Rook(0, 0, false, "rook", ps);
-        Piece bkinght = new Piece(1, 0, false, "knight", ps);
-        Piece bbishop = new Bishop(2, 0, false, "bishop", ps);
-        Piece bqueen = new Piece(3, 0, false, "queen", ps);
-        Piece bking = new Piece(4, 0, false, "king", ps);
-        Piece bbishop2 = new Bishop(5, 0, false, "bishop", ps);
-        Piece bkight2 = new Piece(6, 0, false, "knight", ps);
-        Piece brook2 = new Rook(7, 0, false, "rook", ps);
         Piece bpawn1 = new Pawn(1, 1, false, "pawn", ps);
         Piece bpawn2 = new Pawn(2, 1, false, "pawn", ps);
         Piece bpawn3 = new Pawn(3, 1, false, "pawn", ps);
@@ -54,15 +46,15 @@ public class ChessGame extends Copertina {
         Piece bpawn6 = new Pawn(6, 1, false, "pawn", ps);
         Piece bpawn7 = new Pawn(7, 1, false, "pawn", ps);
         Piece bpawn8 = new Pawn(0, 1, false, "pawn", ps);
+        Piece bkinght = new Knight(1, 0, false, "knight", ps);
+        Piece bbishop = new Bishop(2, 0, false, "bishop", ps);
+        Piece bbishop2 = new Bishop(5, 0, false, "bishop", ps);
+        Piece bkight2 = new Knight(6, 0, false, "knight", ps);
+        Piece bking = new Piece(4, 0, false, "king", ps);
+        Piece bqueen = new Queen(3, 0, false, "queen", ps);
+        Piece brook = new Rook(0, 0, false, "rook", ps);
+        Piece brook2 = new Rook(7, 0, false, "rook", ps);
 
-        Piece wrook = new Rook(0, 7, true, "rook", ps);
-        Piece wkinght = new Piece(1, 7, true, "knight", ps);
-        Piece wbishop = new Bishop(2, 7, true, "bishop", ps);
-        Piece wqueen = new Piece(3, 7, true, "queen", ps);
-        Piece wking = new Piece(4, 7, true, "king", ps);
-        Piece wbishop2 = new Bishop(5, 7, true, "bishop", ps);
-        Piece wkight2 = new Piece(6, 7, true, "knight", ps);
-        Piece wrook2 = new Rook(7, 7, true, "rook", ps);
         Piece wpawn1 = new Pawn(1, 6, true, "pawn", ps);
         Piece wpawn2 = new Pawn(2, 6, true, "pawn", ps);
         Piece wpawn3 = new Pawn(3, 6, true, "pawn", ps);
@@ -71,6 +63,14 @@ public class ChessGame extends Copertina {
         Piece wpawn6 = new Pawn(6, 6, true, "pawn", ps);
         Piece wpawn7 = new Pawn(7, 6, true, "pawn", ps);
         Piece wpawn8 = new Pawn(0, 6, true, "pawn", ps);
+        Piece wkinght = new Knight(1, 7, true, "knight", ps);
+        Piece wbishop = new Bishop(2, 7, true, "bishop", ps);
+        Piece wbishop2 = new Bishop(5, 7, true, "bishop", ps);
+        Piece wkight2 = new Knight(6, 7, true, "knight", ps);
+        Piece wking = new Piece(4, 7, true, "king", ps);
+        Piece wqueen = new Queen(3, 7, true, "queen", ps);
+        Piece wrook = new Rook(0, 7, true, "rook", ps);
+        Piece wrook2 = new Rook(7, 7, true, "rook", ps);
 
         JFrame frame = new JFrame();
         frame.setBounds(100, 100, 512, 512);
@@ -82,6 +82,7 @@ public class ChessGame extends Copertina {
                 boolean white = true;
                 for (int y = 0; y < 8; y++) {
                     for (int x = 0; x < 8; x++) {
+
                         if (white) {
 
                             g.setColor(color1);
@@ -89,6 +90,7 @@ public class ChessGame extends Copertina {
                             g.setColor(color2);
 
                         }
+
                         g.fillRect(x * 64, y * 64, 64, 64);
                         white = !white;
                     }
@@ -118,6 +120,28 @@ public class ChessGame extends Copertina {
                         ind += 6;
                     }
                     g.drawImage(imgs[ind], p.x, p.y, this);
+                }
+            }
+
+            @Override
+            public void paintComponents(Graphics g) {
+                boolean white = true;
+                for (int y = 0; y < 8; y++) {
+                    for (int x = 0; x < 8; x++) {
+                        if (selectedPiece != null && ((Bishop) selectedPiece).isControlled(new Square(x, y))) {
+                            g.setColor(Color.GRAY);
+                        } else if (white) {
+
+                            g.setColor(color1);
+                        } else {
+                            g.setColor(color2);
+
+                        }
+
+                        g.fillRect(x * 64, y * 64, 64, 64);
+                        white = !white;
+                    }
+                    white = !white;
                 }
             }
 
@@ -165,6 +189,15 @@ public class ChessGame extends Copertina {
                         }
                         if (selectedPiece instanceof Rook) {
                             System.out.println("selezionato torre");
+                            System.out.println(selectedPiece.toString());
+                        }
+                        if (selectedPiece instanceof Knight) {
+                            System.out.println("selezionato cavallo");
+                            System.out.println(selectedPiece.toString());
+                        }
+                        if (selectedPiece instanceof Queen) {
+                            System.out.println("selezionato regina");
+                            System.out.println(selectedPiece.toString());
                         }
 
                     } // se il pezzo dove ho clickato è null o è del colore sbagliato
@@ -202,7 +235,22 @@ public class ChessGame extends Copertina {
                     if (selectedPiece instanceof Rook) {
 
                         if (((Rook) selectedPiece).canMove(newX / 64, newY / 64)) {
-                            System.out.println("è una cazzo di torre");
+                            selectedPiece.move(newX / 64, newY / 64);
+                            turn = !turn;
+                        }
+
+                    }
+                    if (selectedPiece instanceof Knight) {
+
+                        if (((Knight) selectedPiece).canMove(newX / 64, newY / 64)) {
+                            selectedPiece.move(newX / 64, newY / 64);
+                            turn = !turn;
+                        }
+
+                    }
+                    if (selectedPiece instanceof Queen) {
+
+                        if (((Queen) selectedPiece).canMove(newX / 64, newY / 64)) {
                             selectedPiece.move(newX / 64, newY / 64);
                             turn = !turn;
                         }
@@ -211,8 +259,8 @@ public class ChessGame extends Copertina {
                     selectedPiece = null;
                     selected = false;
                     System.out.println(turn);
-
                     frame.repaint();
+
                 }
 
             }

@@ -1,47 +1,20 @@
 import java.util.LinkedList;
 
-public class Rook extends Piece {
+public class Queen extends Piece {
 
     public Square[] controlled;
     int index;
 
-    public Rook(int xp, int yp, boolean isWhite, String name, LinkedList<Piece> ps) {
+    public Queen(int xp, int yp, boolean isWhite, String name, LinkedList<Piece> ps) {
         super(xp, yp, isWhite, name, ps);
         // TODO Auto-generated constructor stub
-        controlled = new Square[20];
+        controlled = new Square[28];
         index = 0;
         generateControlledSquares();
+        // generateControlledSquares();
+        // generateControlledSquares();
     }
 
-    /*
-     * public boolean canMove(int xp, int yp) {
-     * 
-     * // almeno una delle 2 coordinate della nuova posizione deve essere uguale
-     * alla // posizione iniziale if (xp != this.xp && yp != this.yp) return false;
-     * 
-     * // se arrivo qui almeno una delle 2 coordinate della mossa è la stessa della
-     * pos // inziale del pezzo // controllo quindi se è possibile lo spostamneto
-     * orizzonatale cioè non ci sono // pezzi in mezzo alla pos iniziale e quella
-     * finale if (yp == this.yp) {
-     * 
-     * int distanceX = xp - this.xp; System.out.println(distanceX); int coeff = 1;
-     * if (distanceX < 0) { coeff = coeff * (-1); } for (int i = 1; i <= distanceX;
-     * i++) { if (ChessGame.getPiece(xp + i * coeff, yp) != null && i < distanceX)
-     * return false; // controllo che nella casella di destinazione ci sia un pezzo
-     * dello stesso // colore if (ChessGame.getPiece(xp + i * coeff, yp).isWhite ==
-     * this.isWhite && i == distanceX) return false; } } // controllo quindi se è
-     * possibile lo spostamento verticale cioè non ci sono // pezzi in mezzo alla
-     * pos iniziale e quella finale if (xp == this.xp) {
-     * 
-     * int distanceY = yp - this.yp; System.out.println(distanceY); int coeff = 1;
-     * if (distanceY < 0) { coeff = coeff * (-1); } for (int i = 1; i <= distanceY;
-     * i++) { if (ChessGame.getPiece(xp, yp + i * coeff) != null && i < distanceY)
-     * return false; // controllo che nella casella di destinazione ci sia un pezzo
-     * dello stesso // colore if (ChessGame.getPiece(xp, yp + i * coeff).isWhite ==
-     * this.isWhite && i == distanceY) return false; } }
-     * 
-     * System.out.println("validooo"); return true; }
-     */
     public boolean canMove(int xp, int yp) {
 
         Square cella = new Square(xp, yp);
@@ -60,9 +33,66 @@ public class Rook extends Piece {
         return false;
     }
 
+    public void move(int xp, int yp) {
+
+        if (canMove(xp, yp)) {
+            super.move(xp, yp);
+            removeAll();
+            super.upDateSquares();
+        } else {
+            System.out.println("non puo muoversi");
+        }
+
+    }
+
     public void generateControlledSquares() {
 
+        // diagonale basso a destra
         int i = 1;
+        while (this.xp + i <= 7 && this.yp + i <= 7) {
+            controlled[index++] = new Square(this.xp + i, this.yp + i);
+            // se dopo aver aggiunto la casella scopro che è occupata da qualcosa mi fermo
+            if (ChessGame.getPiece((this.xp + i) * 64, (this.yp + i) * 64) != null) {
+                break;
+            }
+
+            i++;
+        }
+        // diagonale basso a sinistra
+        i = 1;
+        while (this.xp - i >= 0 && this.yp + i <= 7) {
+            controlled[index++] = new Square(this.xp - i, this.yp + i);
+            // se dopo aver aggiunto la casella scopro che è occupata da qualcosa mi fermo
+            if (ChessGame.getPiece((this.xp - i) * 64, (this.yp + i) * 64) != null) {
+                break;
+            }
+
+            i++;
+        }
+        // diagonale alto destra
+        i = 1;
+        while (this.xp + i <= 7 && this.yp - i >= 0) {
+            controlled[index++] = new Square(this.xp + i, this.yp - i);
+            // se dopo aver aggiunto la casella scopro che è occupata da qualcosa mi fermo
+            if (ChessGame.getPiece((this.xp + i) * 64, (this.yp - i) * 64) != null) {
+                break;
+            }
+
+            i++;
+        }
+        // diagonale alto a sinistra
+        i = 1;
+        while (this.xp - i >= 0 && this.yp - i >= 0) {
+            controlled[index++] = new Square(this.xp - i, this.yp - i);
+            // se dopo aver aggiunto la casella scopro che è occupata da qualcosa mi fermo
+            if (ChessGame.getPiece((this.xp - i) * 64, (this.yp - i) * 64) != null) {
+                break;
+            }
+
+            i++;
+        }
+
+        i = 1;
         while (this.xp + i < 8) {
 
             controlled[index++] = new Square(this.xp + i, this.yp);
@@ -105,20 +135,10 @@ public class Rook extends Piece {
 
     }
 
-    public void removeAll() {
-
-        for (int i = 0; i < getControlledSquaresSize(); i++) {
-
-            controlled[i] = null;
-        }
-        index = 0;
-
-    }
-
     public Square[] getControlledSquares() {
 
         Square[] array = new Square[this.getControlledSquaresSize()];
-        System.arraycopy(this.controlled, 0, array, 0, index);
+        System.arraycopy(this.controlled, 0, array, 0, this.getControlledSquaresSize());
 
         return array;
 
@@ -146,17 +166,13 @@ public class Rook extends Piece {
         return false;
     }
 
-    public void move(int xp, int yp) {
+    public void removeAll() {
 
-        if (canMove(xp, yp)) {
-            System.out.println("mossa valida");
-            super.move(xp, yp);
-            removeAll();
-            super.upDateSquares();
-        } else {
-            System.out.println("mossa non valida");
+        for (int i = 0; i < getControlledSquaresSize(); i++) {
+
+            controlled[i] = null;
         }
-
+        index = 0;
     }
 
     public String toString() {

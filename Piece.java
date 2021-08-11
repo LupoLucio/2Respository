@@ -80,6 +80,36 @@ public class Piece {
 
     }
 
+    public void upDateSquares() {
+
+        Object[] pezzi = ps.toArray();
+
+        for (int i = 0; i < pezzi.length; i++) {
+
+            if (pezzi[i] instanceof Pawn) {
+                ((Pawn) pezzi[i]).removeAll();
+                ((Pawn) pezzi[i]).generateControlledSquares();
+            }
+            if (pezzi[i] instanceof Knight) {
+                ((Knight) pezzi[i]).removeAll();
+                ((Knight) pezzi[i]).generateControlledSquares();
+            }
+            if (pezzi[i] instanceof Bishop) {
+                ((Bishop) pezzi[i]).removeAll();
+                ((Bishop) pezzi[i]).generateControlledSquares();
+            }
+            if (pezzi[i] instanceof Rook) {
+                ((Rook) pezzi[i]).removeAll();
+                ((Rook) pezzi[i]).generateControlledSquares();
+            }
+            if (pezzi[i] instanceof Queen) {
+                ((Queen) pezzi[i]).removeAll();
+                ((Queen) pezzi[i]).generateControlledSquares();
+            }
+
+        }
+    }
+
     // metodo che rimuove un pezzo dalla linkedList
     public void kill() {
         ps.remove(this);

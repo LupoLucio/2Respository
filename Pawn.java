@@ -98,10 +98,9 @@ public class Pawn extends Piece {
         // chiamo il metodo move della classe madre Piece
         if (canMove(xp, yp)) {
             super.move(xp, yp);
-
+            super.upDateSquares();
         }
         // aggiorno le case controllate dopo che l'ho mosso
-        generateControlledSquares();
 
     }
 
@@ -158,6 +157,15 @@ public class Pawn extends Piece {
         System.arraycopy(this.controlled, 0, array, 0, this.getControlledSquaresSize());
 
         return array;
+
+    }
+
+    public void removeAll() {
+
+        for (int i = 0; i < getControlledSquaresSize(); i++) {
+
+            controlled[i] = null;
+        }
 
     }
 
